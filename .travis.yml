@@ -1,0 +1,8 @@
+language: ruby
+script:
+  - bundle exec rake lint spec
+notifications:
+  email: false
+rvm:
+  - 2.1.6
+  - 2.3.0
