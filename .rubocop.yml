@@ -1,0 +1,13 @@
+require: rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 2.1
+
+RSpec/DescribeClass:
+  Enabled: false
+
+Lint/AmbiguousRegexpLiteral:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
