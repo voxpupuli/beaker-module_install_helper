@@ -3,7 +3,13 @@ require: rubocop-rspec
 AllCops:
   TargetRubyVersion: 2.1
 
+RSpec/AnyInstance:
+  Enabled: false
+
 RSpec/DescribeClass:
+  Enabled: false
+
+RSpec/NestedGroups:
   Enabled: false
 
 Lint/AmbiguousRegexpLiteral:
