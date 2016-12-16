@@ -28,6 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec'
 
   # Run time dependencies
-  spec.add_runtime_dependency 'beaker', '= 2.52.0' if RUBY_VERSION <= '2.1.6'
-  spec.add_runtime_dependency 'beaker' if RUBY_VERSION > '2.1.6'
+  spec.add_runtime_dependency 'beaker', '>= 2.0'
 end
