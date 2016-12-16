@@ -62,7 +62,7 @@ module Beaker::ModuleInstallHelper
     module_source_dir = nil
     # here we go up the file tree and search the directories for a
     # valid metadata.json
-    while module_source_dir.nil? && search_in.length > 2
+    while module_source_dir.nil? && search_in != File.dirname(search_in)
       # remove last segment (file or folder, doesn't matter)
       search_in = File.dirname(search_in)
 
