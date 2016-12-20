@@ -63,10 +63,10 @@ OR
 #####Parameters
 * name - Required. Name of the fact as a string
 * operator - Required. Must be on of 4 supported operators symbols:
-* * :equal
-* * :not_equal
-* * :in
-* * :not_in
+  * :equal
+  * :not_equal
+  * :in
+  * :not_in
 * value - Required. Must be a string if the operator used is :equal or :not_equal. Must be an array if operator is :in or :not_in
 
 ### Support
