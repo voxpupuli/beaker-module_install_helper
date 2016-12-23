@@ -19,10 +19,81 @@ module Beaker::ModuleInstallHelper
                    module_name: module_name_from_metadata)
   end
 
-  # This method will install the module under tests dependencies on the
-  # specified host
-  def install_module_dependencies_on(_host, _dependencies)
-    raise 'Not Implemented Yet'
+  # This method calls the install_module_dependencies_on method for each
+  # host which is a master, or if no master is present, on all agent nodes.
+  def install_module_dependencies
+    hosts_to_install_module_on.each do |host|
+      install_module_dependencies_on(host)
+    end
+  end
+
+  # This method will install the module under tests module dependencies on the
+  # specified host from the dependencies list in metadata.json
+  def install_module_dependencies_on(host)
+    deps = module_dependencies_from_metadata
+    deps.each do |dep|
+      install_puppet_module_via_pmt_on(host, dep)
+    end
+  end
+
+  # This method returns an array of dependencies from the metadata.json file
+  # in the format of an array of hashes, containing :module_name and optionally
+  # :version elements. If no dependencies are specified, empty array is returned
+  def module_dependencies_from_metadata
+    metadata = module_metadata
+    return [] unless metadata.key?('dependencies')
+
+    dependencies = []
+    metadata['dependencies'].each do |d|
+      tmp = { module_name: d['name'].sub!('/', '-') }
+
+      if d.key?('version_requirement')
+        tmp[:version] = module_version_from_requirement(tmp[:module_name],
+                                                        d['version_requirement'])
+      end
+      dependencies.push(tmp)
+    end
+
+    dependencies
+  end
+
+  # This method takes a module name and the version requirement string from the
+  # metadata.json file, containing either lower bounds of version or both lower
+  # and upper bounds. The function then uses the forge rest endpoint to find
+  # the most recent release of the given module matching the version requirement
+  def module_version_from_requirement(mod_name, vr_str)
+    uri = URI("https://forgeapi.puppetlabs.com/v3/modules/#{mod_name}")
+    response = Net::HTTP.get(uri)
+    forge_data = JSON.parse(response)
+
+    vrs = version_requirements_from_string(vr_str)
+
+    # Here we iterate the releases of the given module and pick the most recent
+    # that matches to version requirement
+    forge_data['releases'].sort_by { |k| k['version'] }.reverse.each do |rel|
+      return rel['version'] if vrs.all? { |vr| vr.match?('', rel['version']) }
+    end
+
+    raise "No release version found matching '#{vr}'"
+  end
+
+  # This method takes a version requirement string as specified in the link
+  # below, with either simply a lower bound, or both lower and upper bounds and
+  # returns an array of Gem::Dependency objects
+  # https://docs.puppet.com/puppet/latest/modules_metadata.html
+  def version_requirements_from_string(vr_str)
+    ops = vr_str.scan(/[(<|>|=)]{1,2}/i)
+    vers = vr_str.scan(/[(0-9|\.)]+/i)
+
+    raise 'Invalid version requirements' if ops.count != 0 &&
+                                            ops.count != vers.count
+
+    vrs = []
+    ops.each_with_index do |op, index|
+      vrs.push(Gem::Dependency.new('', "#{op} #{vers[index]}"))
+    end
+
+    vrs
   end
 
   # This method will return array of all masters. If no masters exist, it will
