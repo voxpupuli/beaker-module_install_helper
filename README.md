@@ -26,11 +26,11 @@ This will call `install_module_on` on the hosts with role 'master'. If there are
 ### `install_module_on(host)`
 This will install the module under test on the specified host using the local source. The module name will be derived from the name property of the module's metadata.json file, assuming it is in format author-modulename.
 
+### `install_module_dependencies`
+This will call `install_module_dependencies_on` on the hosts with role 'master'. If there are none, the module will be install on all hosts with the role 'agent', again, if there are none, the module dependencies will be installed on all hosts.
+
 ### `install_module_dependencies_on`
 This will install a list of dependencies on the specified host from the forge, using the dependencies list specified in the metadata.json file, taking into consideration the version constraints if specified.
 
 ### Support
 No support is supplied or implied. Use at your own risk.
-
-### TODO
- - Implement `install_module_dependencies_on`
