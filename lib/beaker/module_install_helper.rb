@@ -70,7 +70,7 @@ module Beaker::ModuleInstallHelper
 
     # Here we iterate the releases of the given module and pick the most recent
     # that matches to version requirement
-    forge_data['releases'].sort_by { |k| k['version'] }.reverse.each do |rel|
+    forge_data['releases'].each do |rel|
       return rel['version'] if vrs.all? { |vr| vr.match?('', rel['version']) }
     end
 
