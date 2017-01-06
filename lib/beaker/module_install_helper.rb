@@ -22,17 +22,18 @@ module Beaker::ModuleInstallHelper
   # This method calls the install_module_dependencies_on method for each
   # host which is a master, or if no master is present, on all agent nodes.
   def install_module_dependencies
-    hosts_to_install_module_on.each do |host|
-      install_module_dependencies_on(host)
-    end
+    install_module_dependencies_on(host)
   end
 
   # This method will install the module under tests module dependencies on the
   # specified host from the dependencies list in metadata.json
   def install_module_dependencies_on(host)
+    host = [host] if host.is_a?(Hash)
     deps = module_dependencies_from_metadata
-    deps.each do |dep|
-      install_puppet_module_via_pmt_on(host, dep)
+    host.each do |hst|
+      deps.each do |dep|
+        install_puppet_module_via_pmt_on(hst, dep)
+      end
     end
   end
 
