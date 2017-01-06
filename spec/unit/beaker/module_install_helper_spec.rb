@@ -35,7 +35,7 @@ describe Beaker::ModuleInstallHelper do
 
   context 'module_metadata' do
     before do
-      @module_source_dir = '/a/b/c/d'
+      $module_source_dir = '/a/b/c/d'
       allow(File).to receive(:exist?)
         .with('/a/b/c/d/metadata.json')
         .and_return(true)
@@ -71,7 +71,7 @@ describe Beaker::ModuleInstallHelper do
     let(:module_source_dir) { '/a/b/c/d' }
 
     before do
-      @module_source_dir = '/a/b/c/d'
+      $module_source_dir = '/a/b/c/d'
       allow(File).to receive(:exist?).and_return(true)
       allow(File).to receive(:read).and_return('{"name": "puppetlabs-vcsrepo"}')
 

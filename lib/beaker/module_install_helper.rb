@@ -15,7 +15,7 @@ module Beaker::ModuleInstallHelper
   # the source on the local machine
   def install_module_on(host)
     copy_module_to(host,
-                   source:      @module_source_dir,
+                   source:      $module_source_dir,
                    module_name: module_name_from_metadata)
   end
 
@@ -121,9 +121,9 @@ module Beaker::ModuleInstallHelper
   # This method uses the module_source_directory path to read the metadata.json
   # file into a json array
   def module_metadata
-    metadata_path = "#{@module_source_dir}/metadata.json"
+    metadata_path = "#{$module_source_dir}/metadata.json"
     unless File.exist?(metadata_path)
-      raise "Error loading metadata.json file from #{@module_source_dir}"
+      raise "Error loading metadata.json file from #{$module_source_dir}"
     end
     JSON.parse(File.read(metadata_path))
   end
@@ -148,4 +148,4 @@ end
 
 include Beaker::ModuleInstallHelper
 # Use the caller (requirer) of this file to begin search for module source dir
-@module_source_dir = get_module_source_directory caller[0][/[^:]+/]
+$module_source_dir = get_module_source_directory caller[0][/[^:]+/]
