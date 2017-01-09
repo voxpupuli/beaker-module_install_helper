@@ -15,24 +15,25 @@ module Beaker::ModuleInstallHelper
   # the source on the local machine
   def install_module_on(host)
     copy_module_to(host,
-                   source:      @module_source_dir,
+                   source:      $module_source_dir,
                    module_name: module_name_from_metadata)
   end
 
   # This method calls the install_module_dependencies_on method for each
   # host which is a master, or if no master is present, on all agent nodes.
   def install_module_dependencies
-    hosts_to_install_module_on.each do |host|
-      install_module_dependencies_on(host)
-    end
+    install_module_dependencies_on(host)
   end
 
   # This method will install the module under tests module dependencies on the
   # specified host from the dependencies list in metadata.json
   def install_module_dependencies_on(host)
+    host = [host] if host.is_a?(Hash)
     deps = module_dependencies_from_metadata
-    deps.each do |dep|
-      install_puppet_module_via_pmt_on(host, dep)
+    host.each do |hst|
+      deps.each do |dep|
+        install_puppet_module_via_pmt_on(hst, dep)
+      end
     end
   end
 
@@ -70,7 +71,7 @@ module Beaker::ModuleInstallHelper
 
     # Here we iterate the releases of the given module and pick the most recent
     # that matches to version requirement
-    forge_data['releases'].sort_by { |k| k['version'] }.reverse.each do |rel|
+    forge_data['releases'].each do |rel|
       return rel['version'] if vrs.all? { |vr| vr.match?('', rel['version']) }
     end
 
@@ -120,9 +121,9 @@ module Beaker::ModuleInstallHelper
   # This method uses the module_source_directory path to read the metadata.json
   # file into a json array
   def module_metadata
-    metadata_path = "#{@module_source_dir}/metadata.json"
+    metadata_path = "#{$module_source_dir}/metadata.json"
     unless File.exist?(metadata_path)
-      raise "Error loading metadata.json file from #{@module_source_dir}"
+      raise "Error loading metadata.json file from #{$module_source_dir}"
     end
     JSON.parse(File.read(metadata_path))
   end
@@ -147,4 +148,4 @@ end
 
 include Beaker::ModuleInstallHelper
 # Use the caller (requirer) of this file to begin search for module source dir
-@module_source_dir = get_module_source_directory caller[0][/[^:]+/]
+$module_source_dir = get_module_source_directory caller[0][/[^:]+/]

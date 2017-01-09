@@ -18,6 +18,9 @@ Lint/AmbiguousRegexpLiteral:
 Style/ClassAndModuleChildren:
   Enabled: false
 
+Style/GlobalVars:
+  Enabled: false
+
 Bundler/DuplicatedGem:
   Enabled: false
 
