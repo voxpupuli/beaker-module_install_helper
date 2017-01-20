@@ -21,20 +21,43 @@ module Beaker::ModuleInstallHelper
 
   # This method calls the install_module_dependencies_on method for each
   # host which is a master, or if no master is present, on all agent nodes.
-  def install_module_dependencies
-    install_module_dependencies_on(host)
+  def install_module_dependencies(deps = nil)
+    install_module_dependencies_on(hosts_to_install_module_on, deps)
   end
 
   # This method will install the module under tests module dependencies on the
-  # specified host from the dependencies list in metadata.json
-  def install_module_dependencies_on(host)
-    host = [host] if host.is_a?(Hash)
-    deps = module_dependencies_from_metadata
-    host.each do |hst|
+  # specified host(s) from the dependencies list in metadata.json
+  def install_module_dependencies_on(hsts, deps = nil)
+    hsts = [hsts] if hsts.is_a?(Hash)
+    deps = deps.nil? ? module_dependencies_from_metadata : deps
+
+    fh = ENV['BEAKER_FORGE_HOST']
+
+    hsts.each do |host|
       deps.each do |dep|
-        install_puppet_module_via_pmt_on(hst, dep)
+        if fh.nil?
+          install_puppet_module_via_pmt_on(host, dep)
+        else
+          with_forge_stubbed_on(host) do
+            install_puppet_module_via_pmt_on(host, dep)
+          end
+        end
       end
     end
+  end
+
+  def install_module_from_forge(mod_name, ver_req)
+    install_module_from_forge_on(hosts_to_install_module_on, mod_name, ver_req)
+  end
+
+  def install_module_from_forge_on(hsts, mod_name, ver_req)
+    mod_name.sub!('/', '-')
+    dependency = {
+      module_name: mod_name,
+      version: module_version_from_requirement(mod_name, ver_req)
+    }
+
+    install_module_dependencies_on(hsts, [dependency])
   end
 
   # This method returns an array of dependencies from the metadata.json file
@@ -63,7 +86,7 @@ module Beaker::ModuleInstallHelper
   # and upper bounds. The function then uses the forge rest endpoint to find
   # the most recent release of the given module matching the version requirement
   def module_version_from_requirement(mod_name, vr_str)
-    uri = URI("https://forgeapi.puppetlabs.com/v3/modules/#{mod_name}")
+    uri = URI("#{forge_api}/v3/modules/#{mod_name}")
     response = Net::HTTP.get(uri)
     forge_data = JSON.parse(response)
 
@@ -75,7 +98,7 @@ module Beaker::ModuleInstallHelper
       return rel['version'] if vrs.all? { |vr| vr.match?('', rel['version']) }
     end
 
-    raise "No release version found matching '#{vr}'"
+    raise "No release version found matching '#{vr_str}'"
   end
 
   # This method takes a version requirement string as specified in the link
@@ -143,6 +166,22 @@ module Beaker::ModuleInstallHelper
       module_source_dir = search_in if File.exist?(metadata_path)
     end
     module_source_dir
+  end
+
+  def forge_host
+    fh = ENV['BEAKER_FORGE_HOST']
+    return fh unless fh.nil?
+    'https://forge.puppet.com/'
+  end
+
+  def forge_api
+    fh = forge_host
+    return 'https://forgeapi.puppetlabs.com' if fh == 'https://forge.puppet.com/'
+
+    fa = ENV['BEAKER_FORGE_API']
+    return fa.gsub(/\/$/, '') unless fa.nil?
+
+    raise 'Must specify BEAKER_FORGE_API env variable when specifying custom forge host'
   end
 end
 
