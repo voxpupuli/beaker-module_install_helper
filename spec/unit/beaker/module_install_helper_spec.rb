@@ -218,6 +218,55 @@ describe Beaker::ModuleInstallHelper do
     end
   end
 
+  context 'forge_host' do
+    context 'without env variables specified' do
+      it 'returns production forge host' do
+        allow(ENV).to receive(:[]).with('BEAKER_FORGE_HOST').and_return(nil)
+
+        expect(forge_host).to eq('https://forge.puppet.com/')
+      end
+    end
+
+    context 'with BEAKER_FORGE_HOST env variable specified' do
+      it 'returns specified forge host' do
+        allow(ENV).to receive(:[]).with('BEAKER_FORGE_HOST').and_return('http://anotherhost1.com')
+
+        expect(forge_host).to eq('http://anotherhost1.com')
+      end
+    end
+  end
+
+  context 'forge_api' do
+    context 'without env variables specified' do
+      it 'returns production forge api' do
+        allow(ENV).to receive(:[]).with('BEAKER_FORGE_HOST').and_return(nil)
+        allow(ENV).to receive(:[]).with('BEAKER_FORGE_API').and_return(nil)
+
+        expect(forge_api).to eq('https://forgeapi.puppetlabs.com')
+      end
+    end
+
+    context 'with BEAKER_FORGE_HOST and BEAKER_FORGE_API env variables specified' do
+      context 'without trailing slash' do
+        it 'returns specified forge api' do
+          allow(ENV).to receive(:[]).with('BEAKER_FORGE_HOST').and_return('custom')
+          allow(ENV).to receive(:[]).with('BEAKER_FORGE_API').and_return('an-api-url')
+
+          expect(forge_api).to eq('an-api-url')
+        end
+      end
+
+      context 'with trailing slash' do
+        it 'returns specified forge api without trailing slash' do
+          allow(ENV).to receive(:[]).with('BEAKER_FORGE_HOST').and_return('custom')
+          allow(ENV).to receive(:[]).with('BEAKER_FORGE_API').and_return('an-api-url/')
+
+          expect(forge_api).to eq('an-api-url')
+        end
+      end
+    end
+  end
+
   context 'install_module_dependencies_on' do
     before do
       allow_any_instance_of(described_class)
@@ -283,6 +332,24 @@ describe Beaker::ModuleInstallHelper do
       it 'installs both modules' do
         install_module_dependencies_on(a_host)
       end
+    end
+  end
+
+  context 'install_module_from_forge_on' do
+    let(:a_host) { { name: 'a_host' } }
+    let(:dependency) { { module_name: 'puppetlabs-stdlib', version: '4.14.0' } }
+    let(:input_module_name) { 'puppetlabs/stdlib' }
+    let(:input_module_version_requirement) { '>= 4.13.1 <= 4.14.0' }
+
+    before do
+      expect_any_instance_of(Beaker::DSL::InstallUtils::ModuleUtils)
+        .to receive(:install_puppet_module_via_pmt_on)
+        .with(a_host, dependency)
+        .exactly(1)
+    end
+
+    it 'installs the module' do
+      install_module_from_forge_on(a_host, input_module_name, input_module_version_requirement)
     end
   end
 end
