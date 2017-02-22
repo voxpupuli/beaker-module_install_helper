@@ -242,27 +242,16 @@ describe Beaker::ModuleInstallHelper do
         allow(ENV).to receive(:[]).with('BEAKER_FORGE_HOST').and_return(nil)
         allow(ENV).to receive(:[]).with('BEAKER_FORGE_API').and_return(nil)
 
-        expect(forge_api).to eq('https://forgeapi.puppetlabs.com')
+        expect(forge_api).to eq('https://forgeapi.puppetlabs.com/')
       end
     end
 
     context 'with BEAKER_FORGE_HOST and BEAKER_FORGE_API env variables specified' do
-      context 'without trailing slash' do
-        it 'returns specified forge api' do
-          allow(ENV).to receive(:[]).with('BEAKER_FORGE_HOST').and_return('custom')
-          allow(ENV).to receive(:[]).with('BEAKER_FORGE_API').and_return('an-api-url')
+      it 'returns specified forge api with trailing slash' do
+        allow(ENV).to receive(:[]).with('BEAKER_FORGE_HOST').and_return('custom')
+        allow(ENV).to receive(:[]).with('BEAKER_FORGE_API').and_return('an-api-url/')
 
-          expect(forge_api).to eq('an-api-url')
-        end
-      end
-
-      context 'with trailing slash' do
-        it 'returns specified forge api without trailing slash' do
-          allow(ENV).to receive(:[]).with('BEAKER_FORGE_HOST').and_return('custom')
-          allow(ENV).to receive(:[]).with('BEAKER_FORGE_API').and_return('an-api-url/')
-
-          expect(forge_api).to eq('an-api-url')
-        end
+        expect(forge_api).to eq('https://an-api-url/')
       end
     end
   end

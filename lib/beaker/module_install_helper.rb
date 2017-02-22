@@ -86,7 +86,7 @@ module Beaker::ModuleInstallHelper
   # and upper bounds. The function then uses the forge rest endpoint to find
   # the most recent release of the given module matching the version requirement
   def module_version_from_requirement(mod_name, vr_str)
-    uri = URI("#{forge_api}/v3/modules/#{mod_name}")
+    uri = URI("#{forge_api}v3/modules/#{mod_name}")
     response = Net::HTTP.get(uri)
     forge_data = JSON.parse(response)
 
@@ -170,18 +170,24 @@ module Beaker::ModuleInstallHelper
 
   def forge_host
     fh = ENV['BEAKER_FORGE_HOST']
-    return fh unless fh.nil?
+    unless fh.nil?
+      fh = 'https://' + fh if fh !~ /^(https:\/\/|http:\/\/)/i
+      fh += '/' unless fh != /\/$/
+      return fh
+    end
+
     'https://forge.puppet.com/'
   end
 
   def forge_api
-    fh = forge_host
-    return 'https://forgeapi.puppetlabs.com' if fh == 'https://forge.puppet.com/'
-
     fa = ENV['BEAKER_FORGE_API']
-    return fa.gsub(/\/$/, '') unless fa.nil?
+    unless fa.nil?
+      fa = 'https://' + fa if fa !~ /^(https:\/\/|http:\/\/)/i
+      fa += '/' unless fa != /\/$/
+      return fa
+    end
 
-    raise 'Must specify BEAKER_FORGE_API env variable when specifying custom forge host'
+    'https://forgeapi.puppetlabs.com/'
   end
 end
 
