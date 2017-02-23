@@ -8,6 +8,7 @@ group :test do
   gem 'bundler', '~> 1.9'
   gem 'rake', '~> 10.0'
   gem 'rspec', '~> 3'
+  gem 'rototiller', git: 'https://github.com/puppetlabs/rototiller.git', tag: '1.0.0'
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
 end
