@@ -153,7 +153,14 @@ module Beaker::ModuleInstallHelper
 
   # Use this property to store the module_source_dir, so we don't traverse
   # the tree every time
-  def get_module_source_directory(search_in)
+  def get_module_source_directory(call_stack)
+    matching_caller = call_stack.select { |i| i =~ /(spec_helper_acceptance|_spec)/i }
+
+    raise 'Error finding module source directory' if matching_caller.empty?
+
+    matching_caller = matching_caller[0] if matching_caller.is_a?(Array)
+    search_in = matching_caller[/[^:]+/]
+
     module_source_dir = nil
     # here we go up the file tree and search the directories for a
     # valid metadata.json
@@ -193,4 +200,4 @@ end
 
 include Beaker::ModuleInstallHelper
 # Use the caller (requirer) of this file to begin search for module source dir
-$module_source_dir = get_module_source_directory caller[0][/[^:]+/]
+$module_source_dir = get_module_source_directory caller

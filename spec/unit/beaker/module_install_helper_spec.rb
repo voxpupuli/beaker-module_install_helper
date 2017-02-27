@@ -50,8 +50,8 @@ describe Beaker::ModuleInstallHelper do
   end
 
   context 'get_module_source_directory' do
-    let(:search_in) { '/a/b/c/d/e/f/g/h.rb' }
-    let(:search_in_no_metadata) { '/test/test/test/blah.rb' }
+    let(:call_stack) { ['/a/b/c/d/e/f/g/spec_helper_acceptance.rb'] }
+    let(:call_stack_no_metadata) { ['/test/test/test/spec_helper_acceptance.rb'] }
 
     before do
       allow(File).to receive(:exist?).with(anything).and_return(false)
@@ -59,11 +59,11 @@ describe Beaker::ModuleInstallHelper do
     end
 
     it 'traverses file tree until it finds a folder containing metadata.json' do
-      expect(get_module_source_directory(search_in)).to eq('/a')
+      expect(get_module_source_directory(call_stack)).to eq('/a')
     end
 
     it 'traverses file tree without a metadata.json file' do
-      expect(get_module_source_directory(search_in_no_metadata)).to be_nil
+      expect(get_module_source_directory(call_stack_no_metadata)).to be_nil
     end
   end
 
