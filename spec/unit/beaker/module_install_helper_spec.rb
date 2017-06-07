@@ -5,7 +5,7 @@ describe Beaker::ModuleInstallHelper do
     context 'on split master/agent setup' do
       let(:hosts) do
         [
-          { 'roles' => %w(master database dashboard classifier) },
+          { 'roles' => %w[master database dashboard classifier] },
           { 'roles' => ['agent'] }
         ]
       end
@@ -69,6 +69,7 @@ describe Beaker::ModuleInstallHelper do
 
   context 'install_module_on' do
     let(:module_source_dir) { '/a/b/c/d' }
+    let(:host) { { 'roles' => %w[master database dashboard classifier] } }
 
     before do
       $module_source_dir = '/a/b/c/d'
@@ -85,8 +86,6 @@ describe Beaker::ModuleInstallHelper do
         .with(host, source: module_source_dir, module_name: 'vcsrepo')
         .and_return(true)
     end
-
-    let(:host) { { 'roles' => %w(master database dashboard classifier) } }
 
     it 'copy module to given host' do
       expect(install_module_on(host)).to be true
