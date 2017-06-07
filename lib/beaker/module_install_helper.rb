@@ -69,7 +69,7 @@ module Beaker::ModuleInstallHelper
 
     dependencies = []
     metadata['dependencies'].each do |d|
-      tmp = { module_name: d['name'].sub!('/', '-') }
+      tmp = { module_name: d['name'].sub('/', '-') }
 
       if d.key?('version_requirement')
         tmp[:version] = module_version_from_requirement(tmp[:module_name],
