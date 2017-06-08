@@ -1,5 +1,5 @@
 require 'bundler/gem_tasks'
-task default: [:lint, :spec]
+task default: %i[lint spec]
 
 require 'rubocop/rake_task'
 desc 'Run rubocop'
