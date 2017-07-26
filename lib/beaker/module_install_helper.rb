@@ -86,6 +86,7 @@ module Beaker::ModuleInstallHelper
   # and upper bounds. The function then uses the forge rest endpoint to find
   # the most recent release of the given module matching the version requirement
   def module_version_from_requirement(mod_name, vr_str)
+    require 'net/http'
     uri = URI("#{forge_api}v3/modules/#{mod_name}")
     response = Net::HTTP.get(uri)
     forge_data = JSON.parse(response)
