@@ -29,6 +29,7 @@ module Beaker::ModuleInstallHelper
   # specified host(s) from the dependencies list in metadata.json
   def install_module_dependencies_on(hsts, deps = nil)
     hsts = [hsts] if hsts.is_a?(Hash)
+    hsts = [hsts] unless hsts.respond_to?(:each)
     deps = deps.nil? ? module_dependencies_from_metadata : deps
 
     fh = ENV['BEAKER_FORGE_HOST']
