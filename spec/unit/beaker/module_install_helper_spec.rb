@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Beaker::ModuleInstallHelper do
-  context 'hosts_to_install_module_on' do
-    context 'on split master/agent setup' do
+  describe 'hosts_to_install_module_on' do
+    context 'with a split master/agent setup' do
       let(:hosts) do
         [
           { 'roles' => %w[master database dashboard classifier] },
@@ -15,7 +15,7 @@ describe Beaker::ModuleInstallHelper do
       end
     end
 
-    context 'on split agent only setup' do
+    context 'with a split agent only setup' do
       let(:hosts) { [{ 'roles' => ['agent'] }] }
 
       it 'returns a node with master role' do
@@ -24,7 +24,7 @@ describe Beaker::ModuleInstallHelper do
     end
   end
 
-  context 'module_name_from_metadata' do
+  describe 'module_name_from_metadata' do
     let(:module_metadata) { { 'name' => 'puppetlabs-vcsrepo' } }
 
     it 'Removes author from name' do
@@ -33,7 +33,7 @@ describe Beaker::ModuleInstallHelper do
     end
   end
 
-  context 'module_metadata' do
+  describe 'module_metadata' do
     before do
       $module_source_dir = '/a/b/c/d'
       allow(File).to receive(:exist?)
@@ -44,12 +44,12 @@ describe Beaker::ModuleInstallHelper do
         .and_return('{"name": "puppetlabs-vcsrepo"}')
     end
 
-    it 'Returns hash with correct data' do
+    it 'returns hash with correct data' do
       expect(module_metadata['name']).to eq('puppetlabs-vcsrepo')
     end
   end
 
-  context 'get_module_source_directory' do
+  describe 'get_module_source_directory' do
     let(:call_stack) { ['/a/b/c/d/e/f/g/spec_helper_acceptance.rb'] }
     let(:call_stack_no_metadata) { ['/test/test/test/spec_helper_acceptance.rb'] }
 
@@ -67,7 +67,7 @@ describe Beaker::ModuleInstallHelper do
     end
   end
 
-  context 'install_module_on' do
+  describe 'install_module_on' do
     let(:module_source_dir) { '/a/b/c/d' }
     let(:host) { { 'roles' => %w[master database dashboard classifier] } }
 
@@ -92,7 +92,7 @@ describe Beaker::ModuleInstallHelper do
     end
   end
 
-  context 'module_version_matching_requirement' do
+  describe 'module_version_matching_requirement' do
     context 'with simple version requirement, no upper bound' do
       it 'return latest matching version' do
         res = module_version_from_requirement('puppetlabs-ntp', '= 6.0.0')
@@ -109,14 +109,14 @@ describe Beaker::ModuleInstallHelper do
     end
   end
 
-  context 'module_dependencies_from_metadata' do
+  describe 'module_dependencies_from_metadata' do
     before do
       allow_any_instance_of(described_class)
         .to receive(:module_metadata)
         .and_return(input_metadata)
     end
 
-    context 'multiple dependencies with versions' do
+    context 'with multiple dependencies with versions' do
       let(:input_metadata) do
         {
           'name' => 'puppetlabs-vcsrepo',
@@ -145,7 +145,7 @@ describe Beaker::ModuleInstallHelper do
       end
     end
 
-    context 'multiple dependencies without versions' do
+    context 'with multiple dependencies without versions' do
       let(:input_metadata) do
         {
           'name' => 'puppetlabs-vcsrepo',
@@ -169,7 +169,7 @@ describe Beaker::ModuleInstallHelper do
       end
     end
 
-    context 'empty dependencies' do
+    context 'with empty dependencies' do
       let(:input_metadata) do
         {
           'name' => 'puppetlabs-vcsrepo',
@@ -184,7 +184,7 @@ describe Beaker::ModuleInstallHelper do
       end
     end
 
-    context 'no dependencies' do
+    context 'with no dependencies' do
       let(:input_metadata) { { 'name' => 'puppetlabs-vcsrepo' } }
       let(:desired) { [] }
 
@@ -195,7 +195,7 @@ describe Beaker::ModuleInstallHelper do
     end
   end
 
-  context 'version_requirements_from_string' do
+  describe 'version_requirements_from_string' do
     context 'with simple version requirement containing lower bound' do
       let(:lower_bound) { '>= 2.0.0' }
 
@@ -217,7 +217,7 @@ describe Beaker::ModuleInstallHelper do
     end
   end
 
-  context 'forge_host' do
+  describe 'forge_host' do
     context 'without env variables specified' do
       it 'returns production forge host' do
         allow(ENV).to receive(:[]).with('BEAKER_FORGE_HOST').and_return(nil)
@@ -235,7 +235,7 @@ describe Beaker::ModuleInstallHelper do
     end
   end
 
-  context 'forge_api' do
+  describe 'forge_api' do
     context 'without env variables specified' do
       it 'returns production forge api' do
         allow(ENV).to receive(:[]).with('BEAKER_FORGE_HOST').and_return(nil)
@@ -255,7 +255,7 @@ describe Beaker::ModuleInstallHelper do
     end
   end
 
-  context 'install_module_dependencies_on' do
+  describe 'install_module_dependencies_on' do
     before do
       allow_any_instance_of(described_class)
         .to receive(:module_metadata)
@@ -279,14 +279,12 @@ describe Beaker::ModuleInstallHelper do
         }
       end
 
-      before do
+      it 'installs the modules' do
         expect_any_instance_of(Beaker::DSL::InstallUtils::ModuleUtils)
           .to receive(:install_puppet_module_via_pmt_on)
           .with(a_host, dependency)
           .exactly(1)
-      end
 
-      it 'installs the modules' do
         install_module_dependencies_on(a_host)
       end
     end
@@ -305,7 +303,7 @@ describe Beaker::ModuleInstallHelper do
       let(:dependency1) { { module_name: 'puppetlabs-concat' } }
       let(:dependency2) { { module_name: 'puppetlabs-stdlib' } }
 
-      before do
+      it 'installs both modules' do # rubocop:disable RSpec/ExampleLength,RSpec/MultipleExpectations
         expect_any_instance_of(Beaker::DSL::InstallUtils::ModuleUtils)
           .to receive(:install_puppet_module_via_pmt_on)
           .with(a_host, dependency1)
@@ -315,28 +313,24 @@ describe Beaker::ModuleInstallHelper do
           .to receive(:install_puppet_module_via_pmt_on)
           .with(a_host, dependency2)
           .exactly(1)
-      end
 
-      it 'installs both modules' do
         install_module_dependencies_on(a_host)
       end
     end
   end
 
-  context 'install_module_from_forge_on' do
+  describe 'install_module_from_forge_on' do
     let(:a_host) { { name: 'a_host' } }
     let(:dependency) { { module_name: 'puppetlabs-stdlib', version: '4.14.0' } }
     let(:input_module_name) { 'puppetlabs/stdlib' }
     let(:input_module_version_requirement) { '>= 4.13.1 <= 4.14.0' }
 
-    before do
+    it 'installs the module' do
       expect_any_instance_of(Beaker::DSL::InstallUtils::ModuleUtils)
         .to receive(:install_puppet_module_via_pmt_on)
         .with(a_host, dependency)
         .exactly(1)
-    end
 
-    it 'installs the module' do
       install_module_from_forge_on(a_host, input_module_name, input_module_version_requirement)
     end
   end
