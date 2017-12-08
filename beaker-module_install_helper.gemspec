@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
                        'module under test and its dependencies on the system ' \
                        'under test'
   spec.homepage      = 'https://github.com/puppetlabs/beaker-module_install_helper'
-  spec.license       = 'Apache-2'
+  spec.license       = 'Apache-2.0'
 
   spec.files         = `git ls-files`.split("\n")
   spec.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
@@ -27,5 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec'
 
   # Run time dependencies
-  spec.add_runtime_dependency 'beaker', '>= 2.0'
+  spec.add_runtime_dependency 'beaker', '~> 2.0'
 end
