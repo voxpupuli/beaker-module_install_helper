@@ -52,10 +52,10 @@ module Beaker::ModuleInstallHelper
   end
 
   def install_module_from_forge_on(hsts, mod_name, ver_req)
-    mod_name.sub!('/', '-')
+    sub_mod_name = mod_name.sub('/', '-')
     dependency = {
-      module_name: mod_name,
-      version: module_version_from_requirement(mod_name, ver_req)
+      module_name: sub_mod_name,
+      version: module_version_from_requirement(sub_mod_name, ver_req)
     }
 
     install_module_dependencies_on(hsts, [dependency])
