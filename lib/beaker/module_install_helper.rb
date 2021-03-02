@@ -1,4 +1,5 @@
 require 'beaker'
+require 'beaker-puppet'
 
 # Provides method for use in module test setup to install the module under
 # test and it's dependencies on the specified hosts

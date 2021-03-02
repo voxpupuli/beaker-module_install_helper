@@ -28,4 +28,5 @@ Gem::Specification.new do |spec|
 
   # Run time dependencies
   spec.add_runtime_dependency 'beaker', '>= 2.0'
+  spec.add_runtime_dependency 'beaker-puppet', '~> 1.0'
 end
