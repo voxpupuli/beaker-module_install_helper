@@ -71,24 +71,48 @@ describe Beaker::ModuleInstallHelper do
     let(:module_source_dir) { '/a/b/c/d' }
     let(:host) { { 'roles' => %w[master database dashboard classifier] } }
 
-    before do
-      $module_source_dir = '/a/b/c/d'
-      allow(File).to receive(:exist?).and_return(true)
-      allow(File).to receive(:read).and_return('{"name": "puppetlabs-vcsrepo"}')
+    context 'without options' do
+      before do
+        $module_source_dir = '/a/b/c/d'
+        allow(File).to receive(:exist?).and_return(true)
+        allow(File).to receive(:read).and_return('{"name": "puppetlabs-vcsrepo"}')
 
-      allow_any_instance_of(Beaker::DSL::InstallUtils::ModuleUtils)
-        .to receive(:copy_module_to)
-        .with(anything)
-        .and_return(false)
+        allow_any_instance_of(Beaker::DSL::InstallUtils::ModuleUtils)
+          .to receive(:copy_module_to)
+          .with(anything)
+          .and_return(false)
 
-      allow_any_instance_of(Beaker::DSL::InstallUtils::ModuleUtils)
-        .to receive(:copy_module_to)
-        .with(host, source: module_source_dir, module_name: 'vcsrepo')
-        .and_return(true)
+        allow_any_instance_of(Beaker::DSL::InstallUtils::ModuleUtils)
+          .to receive(:copy_module_to)
+          .with(host, source: module_source_dir, module_name: 'vcsrepo')
+          .and_return(true)
+      end
+
+      it 'copy module to given host' do
+        expect(install_module_on(host)).to be true
+      end
     end
 
-    it 'copy module to given host' do
-      expect(install_module_on(host)).to be true
+    context 'with options' do
+      before do
+        $module_source_dir = '/a/b/c/d'
+        allow(File).to receive(:exist?).and_return(true)
+        allow(File).to receive(:read).and_return('{"name": "puppetlabs-vcsrepo"}')
+
+        allow_any_instance_of(Beaker::DSL::InstallUtils::ModuleUtils)
+          .to receive(:copy_module_to)
+          .with(anything)
+          .and_return(false)
+
+        allow_any_instance_of(Beaker::DSL::InstallUtils::ModuleUtils)
+          .to receive(:copy_module_to)
+          .with(host, source: module_source_dir, module_name: 'vcsrepo', protocol: 'rsync')
+          .and_return(true)
+      end
+
+      it 'copy module to given host' do
+        expect(install_module_on(host, protocol: 'rsync')).to be true
+      end
     end
   end
 

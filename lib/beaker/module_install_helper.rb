@@ -8,16 +8,18 @@ module Beaker::ModuleInstallHelper
 
   # This method calls the install_module_on method for each host which is a
   # master, or if no master is present, on all agent nodes.
-  def install_module
-    install_module_on hosts_to_install_module_on
+  def install_module(opts = {})
+    install_module_on(hosts_to_install_module_on, opts)
   end
 
   # This method will install the module under test on the specified host(s) from
   # the source on the local machine
-  def install_module_on(host)
-    copy_module_to(host,
-                   source:      $module_source_dir,
-                   module_name: module_name_from_metadata)
+  def install_module_on(host, opts = {})
+    opts = {
+      source: $module_source_dir,
+      module_name: module_name_from_metadata
+    }.merge(opts)
+    copy_module_to(host, opts)
   end
 
   # This method calls the install_module_dependencies_on method for each
