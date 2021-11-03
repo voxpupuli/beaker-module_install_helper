@@ -1,5 +1,12 @@
 ## beaker-module\_install\_helper
 
+[![License](https://img.shields.io/github/license/voxpupuli/beaker-module_install_helper.svg)](https://github.com/voxpupuli/beaker-module_install_helper/blob/master/LICENSE)
+[![Test](https://github.com/voxpupuli/beaker-module_install_helper/actions/workflows/test.yml/badge.svg)](https://github.com/voxpupuli/beaker-module_install_helper/actions/workflows/test.yml)
+[![Release](https://github.com/voxpupuli/beaker-module_install_helper/actions/workflows/release.yml/badge.svg)](https://github.com/voxpupuli/beaker-module_install_helper/actions/workflows/release.yml)
+[![RubyGem Version](https://img.shields.io/gem/v/beaker-module_install_helper.svg)](https://rubygems.org/gems/beaker-module_install_helper)
+[![RubyGem Downloads](https://img.shields.io/gem/dt/beaker-module_install_helper.svg)](https://rubygems.org/gems/beaker-module_install_helper)
+[![Donated by Puppet Inc](https://img.shields.io/badge/donated%20by-Puppet%20Inc-fb7047.svg)](#transfer-notice)
+
 This gem is simply an abstraction for the various functions that are performed within the `spec/spec_helper_acceptance.rb` files across the modules to standardise how these are implemented.
 
 ### Usage
@@ -55,3 +62,23 @@ BEAKER_FORGE_HOST=https://module-staging.puppetlabs.com BEAKER_FORGE_API=https:/
 
 ### Support
 No support is supplied or implied. Use at your own risk.
+
+## Transfer Notice
+
+This plugin was originally authored by [Puppet Inc](http://puppet.com).
+The maintainer preferred that [Vox Pupuli](https://voxpupuli.org) take ownership of the module for future improvement and maintenance.
+Existing pull requests and issues were transferred over, please fork and continue to contribute here.
+
+## License
+
+This gem is licensed under the Apache-2 license.
+
+## Release information
+
+To make a new release, please do:
+* update the version in the gemspec file
+* Install gems with `bundle install --with release --path .vendor`
+* generate the changelog with `bundle exec rake changelog`
+* Check if the new version matches the closed issues/PRs in the changelog
+* Create a PR with it
+* After it got merged, push a tag. GitHub actions will do the actual release to rubygems and GitHub Packages
