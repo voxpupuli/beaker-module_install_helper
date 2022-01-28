@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 gemspec
@@ -16,9 +18,9 @@ group :development do
   gem 'pry-byebug'
 end
 
-group :coverage, optional: ENV['COVERAGE']!='yes' do
-  gem 'simplecov-console', :require => false
-  gem 'codecov', :require => false
+group :coverage, optional: ENV['COVERAGE'] != 'yes' do
+  gem 'simplecov-console', require: false
+  gem 'codecov', require: false
 end
 
 group :release do

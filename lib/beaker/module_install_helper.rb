@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'beaker'
 require 'beaker-puppet'
 
@@ -112,7 +114,7 @@ module Beaker::ModuleInstallHelper
   # https://docs.puppet.com/puppet/latest/modules_metadata.html
   def version_requirements_from_string(vr_str)
     ops = vr_str.scan(/[(<|>|=)]{1,2}/i)
-    vers = vr_str.scan(/[(0-9|\.)]+/i)
+    vers = vr_str.scan(/[(0-9|.)]+/i)
 
     raise 'Invalid version requirements' if ops.count != 0 &&
                                             ops.count != vers.count
@@ -143,6 +145,7 @@ module Beaker::ModuleInstallHelper
   def module_name_from_metadata
     res = get_module_name module_metadata['name']
     raise 'Error getting module name' unless res
+
     res[1]
   end
 
@@ -153,6 +156,7 @@ module Beaker::ModuleInstallHelper
     unless File.exist?(metadata_path)
       raise "Error loading metadata.json file from #{$module_source_dir}"
     end
+
     JSON.parse(File.read(metadata_path))
   end
 
@@ -183,7 +187,7 @@ module Beaker::ModuleInstallHelper
   def forge_host
     fh = ENV['BEAKER_FORGE_HOST']
     unless fh.nil?
-      fh = 'https://' + fh if fh !~ /^(https:\/\/|http:\/\/)/i
+      fh = "https://#{fh}" if fh !~ /^(https:\/\/|http:\/\/)/i
       fh += '/' unless fh != /\/$/
       return fh
     end
@@ -194,7 +198,7 @@ module Beaker::ModuleInstallHelper
   def forge_api
     fa = ENV['BEAKER_FORGE_API']
     unless fa.nil?
-      fa = 'https://' + fa if fa !~ /^(https:\/\/|http:\/\/)/i
+      fa = "https://#{fa}" if fa !~ /^(https:\/\/|http:\/\/)/i
       fa += '/' unless fa != /\/$/
       return fa
     end
@@ -203,6 +207,8 @@ module Beaker::ModuleInstallHelper
   end
 end
 
+# rubocop:disable Style/MixinUsage
 include Beaker::ModuleInstallHelper
+# rubocop:enable Style/MixinUsage
 # Use the caller (requirer) of this file to begin search for module source dir
 $module_source_dir = get_module_source_directory caller

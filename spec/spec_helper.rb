@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 begin
   require 'simplecov'
   require 'simplecov-console'
@@ -18,7 +20,7 @@ else
 
   SimpleCov.formatters = [
     SimpleCov::Formatter::Console,
-    SimpleCov::Formatter::Codecov,
+    SimpleCov::Formatter::Codecov
   ]
 end
 
