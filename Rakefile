@@ -1,13 +1,9 @@
 # frozen_string_literal: true
 
 require 'bundler/gem_tasks'
-task default: %i[lint spec]
-
 require 'rubocop/rake_task'
-desc 'Run rubocop'
-RuboCop::RakeTask.new(:lint) do |t|
-  t.requires << 'rubocop-rspec'
-end
+
+RuboCop::RakeTask.new
 
 require 'rspec/core/rake_task'
 desc 'Run spec tests using rspec'
@@ -30,3 +26,8 @@ else
     config.future_release = Gem::Specification.load("#{config.project}.gemspec").version
   end
 end
+
+task default: %w[
+  rubocop
+  spec
+]
