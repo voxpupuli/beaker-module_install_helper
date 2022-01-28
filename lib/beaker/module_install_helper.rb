@@ -92,8 +92,10 @@ module Beaker::ModuleInstallHelper
   def module_version_from_requirement(mod_name, vr_str)
     require 'net/http'
     uri = URI("#{forge_api}v3/modules/#{mod_name}")
-    response = Net::HTTP.get(uri)
-    forge_data = JSON.parse(response)
+    response = Net::HTTP.get_response(uri)
+    raise "Puppetforge API error '#{uri}': '#{response.body}'" if response.code.to_i >= 400
+
+    forge_data = JSON.parse(response.body)
 
     vrs = version_requirements_from_string(vr_str)
 
