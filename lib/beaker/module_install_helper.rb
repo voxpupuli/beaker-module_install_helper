@@ -35,7 +35,7 @@ module Beaker::ModuleInstallHelper
   def install_module_dependencies_on(hsts, deps = nil)
     hsts = [hsts] if hsts.is_a?(Hash)
     hsts = [hsts] unless hsts.respond_to?(:each)
-    deps = deps.nil? ? module_dependencies_from_metadata : deps
+    deps = module_dependencies_from_metadata if deps.nil?
 
     fh = ENV['BEAKER_FORGE_HOST']
 
@@ -113,7 +113,7 @@ module Beaker::ModuleInstallHelper
   # returns an array of Gem::Dependency objects
   # https://docs.puppet.com/puppet/latest/modules_metadata.html
   def version_requirements_from_string(vr_str)
-    ops = vr_str.scan(/[(<|>|=)]{1,2}/i)
+    ops = vr_str.scan(/[(<|>=)]{1,2}/i)
     vers = vr_str.scan(/[(0-9|.)]+/i)
 
     raise 'Invalid version requirements' if ops.count != 0 &&
@@ -163,7 +163,7 @@ module Beaker::ModuleInstallHelper
   # Use this property to store the module_source_dir, so we don't traverse
   # the tree every time
   def get_module_source_directory(call_stack)
-    matching_caller = call_stack.select { |i| i =~ /(spec_helper_acceptance|_spec)/i }
+    matching_caller = call_stack.grep(/(spec_helper_acceptance|_spec)/i)
 
     raise 'Error finding module source directory' if matching_caller.empty?
 
