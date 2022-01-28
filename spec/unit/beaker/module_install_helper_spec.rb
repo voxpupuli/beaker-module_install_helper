@@ -8,7 +8,7 @@ describe Beaker::ModuleInstallHelper do
       let(:hosts) do
         [
           { 'roles' => %w[master database dashboard classifier] },
-          { 'roles' => ['agent'] }
+          { 'roles' => ['agent'] },
         ]
       end
 
@@ -161,7 +161,7 @@ describe Beaker::ModuleInstallHelper do
       let(:desired) do
         [
           { module_name: 'puppetlabs-stdlib', version: '4.14.0' },
-          { module_name: 'puppetlabs-concat', version: '2.2.0' }
+          { module_name: 'puppetlabs-concat', version: '2.2.0' },
         ]
       end
 
@@ -177,7 +177,7 @@ describe Beaker::ModuleInstallHelper do
           'name' => 'puppetlabs-vcsrepo',
           'dependencies' => [
             { 'name' => 'puppetlabs/stdlib' },
-            { 'name' => 'puppetlabs/concat' }
+            { 'name' => 'puppetlabs/concat' },
           ]
         }
       end
@@ -185,7 +185,7 @@ describe Beaker::ModuleInstallHelper do
       let(:desired) do
         [
           { module_name: 'puppetlabs-stdlib' },
-          { module_name: 'puppetlabs-concat' }
+          { module_name: 'puppetlabs-concat' },
         ]
       end
 
@@ -300,7 +300,7 @@ describe Beaker::ModuleInstallHelper do
             {
               'name' => 'puppetlabs/stdlib',
               'version_requirement' => '>= 4.13.1 <= 4.14.0'
-            }
+            },
           ]
         }
       end
@@ -321,7 +321,7 @@ describe Beaker::ModuleInstallHelper do
           'name' => 'puppetlabs-vcsrepo',
           'dependencies' => [
             { 'name' => 'puppetlabs/stdlib' },
-            { 'name' => 'puppetlabs/concat' }
+            { 'name' => 'puppetlabs/concat' },
           ]
         }
       end
