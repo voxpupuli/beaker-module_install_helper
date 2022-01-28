@@ -103,7 +103,7 @@ module Beaker::ModuleInstallHelper
       return rel['version'] if vrs.all? { |vr| vr.match?('', rel['version']) }
     end
 
-    raise "No release version found matching '#{vr_str}'"
+    raise "No release version found matching '#{mod_name}' '#{vr_str}'"
   end
 
   # This method takes a version requirement string as specified in the link
