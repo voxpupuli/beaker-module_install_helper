@@ -360,4 +360,29 @@ describe Beaker::ModuleInstallHelper do
       install_module_from_forge_on(a_host, input_module_name, input_module_version_requirement)
     end
   end
+
+  describe 'module_version_from_requirement' do
+    context 'when looking up resolvable version contraints for a valid module' do
+      it 'gets a response', live_fire: true do
+        ver = module_version_from_requirement('puppetlabs-vcsrepo', '>= 1 < 2')
+        expect(ver).to eq '1.5.0'
+      end
+    end
+
+    context 'when looking up *unresolvable* version contraints for a valid module' do
+      it 'gets a response', live_fire: true do
+        expect do
+          module_version_from_requirement('puppetlabs-vcsrepo', '> 1.4 < 1.5')
+        end.to raise_error(/^No release version found matching 'puppetlabs-vcsrepo' '> 1.4 < 1.5'/)
+      end
+    end
+
+    context 'when looking up metadata for a *invalid* module name' do
+      it 'gets a response', live_fire: true do
+        expect do
+          module_version_from_requirement('puppet-does-not-exist', '>= 1 < 2')
+        end.to raise_error(/^Puppetforge API error/)
+      end
+    end
+  end
 end
