@@ -1,7 +1,10 @@
-require: rubocop-rspec
+---
+require:
+  - rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 2.1
+  NewCops: enable
+  TargetRubyVersion: 2.5
 
 Bundler/OrderedGems:
   Enabled: false
@@ -44,3 +47,9 @@ Metrics/MethodLength:
 
 Metrics/ModuleLength:
   Enabled: false
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
