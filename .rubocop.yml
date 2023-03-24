@@ -1,55 +1,24 @@
 ---
 require:
+  - rubocop-performance
+  - rubocop-rake
   - rubocop-rspec
 
 AllCops:
   NewCops: enable
   TargetRubyVersion: 2.5
 
-Bundler/OrderedGems:
+Gemspec/RequireMFA:
   Enabled: false
 
-RSpec/AnyInstance:
-  Enabled: false
-
-RSpec/DescribeClass:
-  Enabled: false
-
-RSpec/NestedGroups:
-  Enabled: false
-
-Lint/AmbiguousRegexpLiteral:
-  Enabled: false
-
-Style/ClassAndModuleChildren:
-  Enabled: false
-
-Style/GlobalVars:
-  Enabled: false
-
-Style/RegexpLiteral:
-  Enabled: false
-
-Bundler/DuplicatedGem:
-  Enabled: false
-
-Metrics/AbcSize:
-  Enabled: false
-
-Metrics/BlockLength:
-  Enabled: false
-
-Metrics/LineLength:
-  Max: 100
-
-Metrics/MethodLength:
-  Enabled: false
-
-Metrics/ModuleLength:
-  Enabled: false
-
-Style/TrailingCommaInArguments:
-  EnforcedStyleForMultiline: comma
+Style/TrailingCommaInHashLiteral:
+  Enabled: True
+  EnforcedStyleForMultiline: consistent_comma
 
 Style/TrailingCommaInArrayLiteral:
+  Enabled: True
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInArguments:
+  Enabled: True
   EnforcedStyleForMultiline: comma
