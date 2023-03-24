@@ -16,9 +16,9 @@ group :development do
   gem 'pry-byebug'
 end
 
-group :coverage, optional: ENV['COVERAGE'] != 'yes' do
-  gem 'simplecov-console', require: false
+group :coverage, optional: ENV.fetch('COVERAGE', nil) != 'yes' do
   gem 'codecov', require: false
+  gem 'simplecov-console', require: false
 end
 
 group :release do
