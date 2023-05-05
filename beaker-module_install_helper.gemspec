@@ -25,11 +25,11 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   ## Testing dependencies
-  spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'rspec', '~> 3.12'
   spec.add_development_dependency 'voxpupuli-rubocop', '~> 1.2'
 
   # Run time dependencies
-  spec.add_runtime_dependency 'beaker', '>= 2.0'
+  spec.add_runtime_dependency 'beaker', '>= 2.0', '< 6'
   spec.add_runtime_dependency 'beaker-puppet', '>= 1', '< 3'
 
   spec.required_ruby_version = '>= 2.7.0'
