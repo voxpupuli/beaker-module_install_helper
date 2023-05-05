@@ -1,10 +1,38 @@
-# Changelog
+      # Changelog
 
-All notable changes to this project will be documented in this file.
+      # All notable changes to this project will be documented in this file.
 
-## [1.0.0](https://github.com/voxpupuli/beaker-module_install_helper/tree/1.0.0) (2021-11-03)
 
-[Full Changelog](https://github.com/voxpupuli/beaker-module_install_helper/compare/v0.1.7...1.0.0)
+## [2.0.0](https://github.com/voxpupuli/beaker-module_install_helper/tree/2.0.0) (2023-05-05)
+
+[Full Changelog](https://github.com/voxpupuli/beaker-module_install_helper/compare/v1.0.0...2.0.0)
+
+**Breaking changes:**
+
+- Drop Ruby 2.5/2.6 support; use voxpupuli-rubocop [\#42](https://github.com/voxpupuli/beaker-module_install_helper/pull/42) ([bastelfreak](https://github.com/bastelfreak))
+- add rubocop to CI / bump min ruby to 2.5 [\#33](https://github.com/voxpupuli/beaker-module_install_helper/pull/33) ([jhoblitt](https://github.com/jhoblitt))
+
+**Implemented enhancements:**
+
+- CI: Apply Vox Pupuli best practices & Add Ruby 3.2 support [\#39](https://github.com/voxpupuli/beaker-module_install_helper/pull/39) ([bastelfreak](https://github.com/bastelfreak))
+
+**Closed issues:**
+
+- Forge stubbing doesn't work for non-forge forges [\#23](https://github.com/voxpupuli/beaker-module_install_helper/issues/23)
+
+**Merged pull requests:**
+
+- CI: Build gems with strictness and verbosity & dependencies: add version constraints [\#43](https://github.com/voxpupuli/beaker-module_install_helper/pull/43) ([bastelfreak](https://github.com/bastelfreak))
+- Update beaker-puppet requirement from ~\> 1.0 to \>= 1, \< 3 [\#41](https://github.com/voxpupuli/beaker-module_install_helper/pull/41) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump actions/checkout from 2 to 3 [\#40](https://github.com/voxpupuli/beaker-module_install_helper/pull/40) ([dependabot[bot]](https://github.com/apps/dependabot))
+- dependabot: check for github actions and gems [\#38](https://github.com/voxpupuli/beaker-module_install_helper/pull/38) ([bastelfreak](https://github.com/bastelfreak))
+- Rubocop: Apply Vox Pupuli best practices & fix violations [\#37](https://github.com/voxpupuli/beaker-module_install_helper/pull/37) ([bastelfreak](https://github.com/bastelfreak))
+- Fix incorrect Apache-2 license [\#36](https://github.com/voxpupuli/beaker-module_install_helper/pull/36) ([bastelfreak](https://github.com/bastelfreak))
+- add basic Net::HTTP error handling [\#34](https://github.com/voxpupuli/beaker-module_install_helper/pull/34) ([jhoblitt](https://github.com/jhoblitt))
+
+## [v1.0.0](https://github.com/voxpupuli/beaker-module_install_helper/tree/v1.0.0) (2021-11-03)
+
+[Full Changelog](https://github.com/voxpupuli/beaker-module_install_helper/compare/v0.1.7...v1.0.0)
 
 **Closed issues:**
 
