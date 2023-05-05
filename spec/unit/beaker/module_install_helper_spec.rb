@@ -149,12 +149,12 @@ describe Beaker::ModuleInstallHelper do
           'dependencies' => [
             {
               'name' => 'puppetlabs/stdlib',
-              'version_requirement' => '>= 4.13.1 <= 4.14.0'
+              'version_requirement' => '>= 4.13.1 <= 4.14.0',
             }, {
               'name' => 'puppetlabs/concat',
-              'version_requirement' => '>= 2.0.0 <= 2.2.0'
-            }
-          ]
+              'version_requirement' => '>= 2.0.0 <= 2.2.0',
+            },
+          ],
         }
       end
 
@@ -178,7 +178,7 @@ describe Beaker::ModuleInstallHelper do
           'dependencies' => [
             { 'name' => 'puppetlabs/stdlib' },
             { 'name' => 'puppetlabs/concat' },
-          ]
+          ],
         }
       end
 
@@ -199,7 +199,7 @@ describe Beaker::ModuleInstallHelper do
       let(:input_metadata) do
         {
           'name' => 'puppetlabs-vcsrepo',
-          'dependencies' => []
+          'dependencies' => [],
         }
       end
       let(:desired) { [] }
@@ -238,7 +238,7 @@ describe Beaker::ModuleInstallHelper do
       it 'return array with 2 gem version dependency objects' do
         res = version_requirements_from_string("#{lower_bound} #{upper_bound}")
         expect(res).to eql([Gem::Dependency.new('', lower_bound),
-                            Gem::Dependency.new('', upper_bound)])
+                            Gem::Dependency.new('', upper_bound),])
       end
     end
   end
@@ -299,9 +299,9 @@ describe Beaker::ModuleInstallHelper do
           'dependencies' => [
             {
               'name' => 'puppetlabs/stdlib',
-              'version_requirement' => '>= 4.13.1 <= 4.14.0'
+              'version_requirement' => '>= 4.13.1 <= 4.14.0',
             },
-          ]
+          ],
         }
       end
 
@@ -322,7 +322,7 @@ describe Beaker::ModuleInstallHelper do
           'dependencies' => [
             { 'name' => 'puppetlabs/stdlib' },
             { 'name' => 'puppetlabs/concat' },
-          ]
+          ],
         }
       end
       let(:a_host) { { name: 'a_host' } }

@@ -9,8 +9,6 @@ group :test do
   gem 'bundler', '>= 1.9', '< 3'
   gem 'rake', '~> 13.0'
   gem 'rspec', '~> 3.0'
-  gem 'rubocop', require: false
-  gem 'rubocop-rspec', require: false
 end
 
 group :development do
@@ -18,9 +16,9 @@ group :development do
   gem 'pry-byebug'
 end
 
-group :coverage, optional: ENV['COVERAGE'] != 'yes' do
-  gem 'simplecov-console', require: false
+group :coverage, optional: ENV.fetch('COVERAGE', nil) != 'yes' do
   gem 'codecov', require: false
+  gem 'simplecov-console', require: false
 end
 
 group :release do

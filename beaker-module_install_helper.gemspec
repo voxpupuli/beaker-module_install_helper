@@ -27,11 +27,13 @@ Gem::Specification.new do |spec|
 
   ## Testing dependencies
   spec.add_development_dependency 'rspec'
-
+  spec.add_development_dependency 'rubocop', '~> 1.28.2'
+  spec.add_development_dependency 'rubocop-performance'
+  spec.add_development_dependency 'rubocop-rake'
+  spec.add_development_dependency 'rubocop-rspec'
   # Run time dependencies
   spec.add_runtime_dependency 'beaker', '>= 2.0'
   spec.add_runtime_dependency 'beaker-puppet', '~> 1.0'
 
   spec.required_ruby_version = '>= 2.5.0'
-  spec.metadata['rubygems_mfa_required'] = 'true'
 end
