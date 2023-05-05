@@ -19,21 +19,18 @@ Gem::Specification.new do |spec|
   spec.license       = 'Apache-2.0'
 
   spec.files         = `git ls-files`.split("\n")
-  spec.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  spec.executables   = `git ls-files -- bin/*` \
-                       .split("\n") \
+  spec.executables   = `git ls-files -- bin/*`
+                       .split("\n")
                        .map { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
   ## Testing dependencies
   spec.add_development_dependency 'rspec'
-  spec.add_development_dependency 'rubocop', '~> 1.28.2'
-  spec.add_development_dependency 'rubocop-performance'
-  spec.add_development_dependency 'rubocop-rake'
-  spec.add_development_dependency 'rubocop-rspec'
+  spec.add_development_dependency 'voxpupuli-rubocop', '~> 1.2'
+
   # Run time dependencies
   spec.add_runtime_dependency 'beaker', '>= 2.0'
   spec.add_runtime_dependency 'beaker-puppet', '>= 1', '< 3'
 
-  spec.required_ruby_version = '>= 2.5.0'
+  spec.required_ruby_version = '>= 2.7.0'
 end
