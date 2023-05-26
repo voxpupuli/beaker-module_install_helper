@@ -7,6 +7,8 @@
 [![RubyGem Downloads](https://img.shields.io/gem/dt/beaker-module_install_helper.svg)](https://rubygems.org/gems/beaker-module_install_helper)
 [![Donated by Puppet Inc](https://img.shields.io/badge/donated%20by-Puppet%20Inc-fb7047.svg)](#transfer-notice)
 
+**This gem is deprecated. Vox Pupuli now uses [beaker_puppet_helpers](https://github.com/voxpupuli/beaker_puppet_helpers)**
+
 This gem is simply an abstraction for the various functions that are performed within the `spec/spec_helper_acceptance.rb` files across the modules to standardise how these are implemented.
 
 ### Usage
