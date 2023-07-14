@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
 
   ## Testing dependencies
   spec.add_development_dependency 'rspec', '~> 3.12'
-  spec.add_development_dependency 'voxpupuli-rubocop', '~> 1.2'
+  spec.add_development_dependency 'voxpupuli-rubocop', '~> 2.0'
 
   # Run time dependencies
   spec.add_runtime_dependency 'beaker', '>= 2.0', '< 6'
